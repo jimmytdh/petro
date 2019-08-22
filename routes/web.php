@@ -56,3 +56,5 @@ Route::get('/load/info/{id}','MonitoringCtrl@info');
 Route::get('/loading',function(){
     return view('page.loading');
 });
+
+Route::post('/param/change/year','ParamController@changeYear');

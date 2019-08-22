@@ -36,7 +36,7 @@
             {{--<span class="logo-mini"><b>DTS</b></span>--}}
             <span class="logo-mini"><img src="{{ url('img/logo-white.png') }}" width="32px" /></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><img src="{{ url('img/logo-white.png') }}" width="32px" /> <b>TDH</b> PETRO</span>
+            <span class="logo-lg"><b>TDH</b> PETRO</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -88,7 +88,7 @@
 <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 1.1
+            <b>Version</b> 1.0
         </div>
         <strong><a href="#">TDH Tracking</a>.</strong> All rights
         reserved.

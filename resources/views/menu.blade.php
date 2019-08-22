@@ -6,11 +6,18 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- search form -->
-        <form action="#" id="trackForm" method="post" class="sidebar-form">
+        <form action="{{ url('param/change/year') }}" method="post" class="sidebar-form">
+            {{ csrf_field() }}
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Track Document...">
+                <?php $year = date('Y'); ?>
+                <select name="year" class="form-control">
+                    @while($year >= '2018')                    
+                    <option {{ (Session::get('year')==$year) ? 'selected':'' }}>{{ $year }}</option>
+                    <?php $year-- ;?>
+                    @endwhile
+                </select>
                 <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-check"></i>
                 </button>
               </span>
             </div>

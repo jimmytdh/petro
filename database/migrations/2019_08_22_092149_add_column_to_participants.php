@@ -16,6 +16,7 @@ class AddColumnToParticipants extends Migration
         Schema::table('participants', function($table) {
             $table->string('contact');
             $table->string('email');
+            $table->date('dob');
         });
     }
 
@@ -29,6 +30,7 @@ class AddColumnToParticipants extends Migration
         Schema::table('participants', function($table) {
             $table->dropColumn('contact');
             $table->dropColumn('email');
+            $table->dropColumn('dob');
         });
     }
 }

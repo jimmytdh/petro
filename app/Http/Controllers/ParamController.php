@@ -20,33 +20,6 @@ class ParamController extends Controller
         return $age;
     }
 
-    static function generateRouteNo()
-    {
-        $user = Session::get('user');
-        $year = date('y');
-        $month = date('m');
-        $count = TrackingMaster::where('prepared_by',$user->id)
-                    ->whereBetween('prepared_date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])
-                    ->count();
-        $count++;
-        $count = str_pad($count,3,0,STR_PAD_LEFT);
-
-        $code = Section::find($user->section)->initial;
-
-        return "$code-$year$month-$count";
-    }
-
-    static function getNextDate($id,$track_id)
-    {
-        $data = Tracking::where('id','>',$id)
-            ->where('track_id',$track_id)
-            ->first();
-        if($data)
-            return $data->date_in;
-
-        return Carbon::now();
-    }
-
     static function timeDiff($start,$end)
     {
         $start = Carbon::parse($start);
@@ -87,5 +60,11 @@ class ParamController extends Controller
 
 
         return $diff;
+    }
+
+    public function changeYear(Request $req)
+    {
+        Session::put('year',$req->year);
+        return redirect()->back();
     }
 }

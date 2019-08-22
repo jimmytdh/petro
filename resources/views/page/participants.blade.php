@@ -13,7 +13,7 @@
         <!-- Main content -->
         <section class="content">
             @if(!$edit)
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Add Participant</h3>
@@ -33,6 +33,10 @@
                                     <div class="form-group">
                                         <label for="lname">Last Name</label>
                                         <input type="text" required autocomplete="off" name="lname" class="form-control" id="lname" placeholder="Enter Last Name">
+                                    </div> 
+                                    <div class="form-group">
+                                        <label for="dob">Date of Birth</label>
+                                        <input type="date" required autocomplete="off" name="dob" class="form-control" id="dob" value="Y-m-d">
                                     </div> 
                                     <div class="form-group">
                                         <label for="email">Email</label>
@@ -64,7 +68,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title">Update Participant</h3>
@@ -84,7 +88,11 @@
                                     <div class="form-group">
                                         <label for="lname">Last Name</label>
                                         <input type="text" required autocomplete="off" name="lname" value="{{ $info->lname }}" class="form-control" id="lname" placeholder="Enter Last Name">
-                                    </div>      
+                                    </div>     
+                                    <div class="form-group">
+                                            <label for="dob">Date of Birth</label>
+                                            <input type="date" required autocomplete="off" name="dob" class="form-control" id="dob" value="{{ date('Y-m-d',strtotime($info->dob))}}">
+                                        </div>  
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" required autocomplete="off" name="email" value="{{ $info->email }}" class="form-control" id="email" placeholder="Enter Email">
@@ -117,7 +125,7 @@
                     </div>
                 </div>
             @endif
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">List of Participants</h3>
@@ -144,7 +152,8 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Complete Name</th>            
+                                    <th>Complete Name</th> 
+                                    <th class="text-center">Age</th>           
                                     <th>Email</th>                        
                                     <th>Contact #</th>                        
                                     <th>Division</th> 
@@ -161,6 +170,7 @@
                                             </a>
                                         </td>
                                         <td class="text-success">{{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}</td>                                                                                                           
+                                        <td class="text-center">{{ \App\Http\Controllers\ParamController::getAge($row->dob) }}</td>
                                         <td>{{ $row->email }}</td>
                                         <td>{{ $row->contact }}</td>
                                         <td>{{ \app\Division::find($row->division)->name }}</td>

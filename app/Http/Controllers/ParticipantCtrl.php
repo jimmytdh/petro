@@ -51,11 +51,17 @@ class ParticipantCtrl extends Controller
             'mname' => $req->mname,
             'lname' => $req->lname,
             'email' => $req->email,
+            'dob' => $req->dob,
             'contact' => $req->contact,
             'division' => $req->division
         );
+        $match = array(
+            'fname' => $req->fname,
+            'lname' => $req->lname,
+            'dob' => $req->dob
+        );
 
-        $validate = Participant::where($data)->first();
+        $validate = Participant::where($match)->first();
         if(!$validate){
             Participant::insert($data);
             return redirect('/participants')->with('status',[
@@ -95,11 +101,18 @@ class ParticipantCtrl extends Controller
             'mname' => $req->mname,
             'lname' => $req->lname,
             'email' => $req->email,
+            'dob' => $req->dob,
             'contact' => $req->contact,
             'division' => $req->division
         );
 
-        $validate = Participant::where($data)
+        $match = array(
+            'fname' => $req->fname,
+            'lname' => $req->lname,
+            'dob' => $req->dob
+        );
+
+        $validate = Participant::where($match)
                         ->where('id','<>',$id)
                         ->first();
         
