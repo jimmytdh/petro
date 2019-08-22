@@ -50,6 +50,8 @@ class ParticipantCtrl extends Controller
             'fname' => $req->fname,
             'mname' => $req->mname,
             'lname' => $req->lname,
+            'email' => $req->email,
+            'contact' => $req->contact,
             'division' => $req->division
         );
 
@@ -92,6 +94,8 @@ class ParticipantCtrl extends Controller
             'fname' => $req->fname,
             'mname' => $req->mname,
             'lname' => $req->lname,
+            'email' => $req->email,
+            'contact' => $req->contact,
             'division' => $req->division
         );
 

@@ -12,10 +12,13 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title title_name">
-        {{ $participant->lname }}, {{ $participant->fname }} {{ $participant->mname }}
-        <br />
-        <small style="margin-top:-20px;">{{ $participant->name }}</small>
+        {{ $participant->lname }}, {{ $participant->fname }} {{ $participant->mname }}        
     </h4>
+    <div class="info text-danger">
+        Division: {{ $participant->name }}<br />
+        Email: {{ $participant->email }}<br />
+        Contact: {{ $participant->contact }}
+    </div>   
 </div>
 <div class="modal-body">
     <table class="tbl-info" width="100%" border="1">

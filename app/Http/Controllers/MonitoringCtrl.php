@@ -13,7 +13,6 @@ class MonitoringCtrl extends Controller
     {
         $this->middleware('login');
     }
-
     
     public function index()
     {

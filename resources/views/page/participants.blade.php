@@ -33,7 +33,15 @@
                                     <div class="form-group">
                                         <label for="lname">Last Name</label>
                                         <input type="text" required autocomplete="off" name="lname" class="form-control" id="lname" placeholder="Enter Last Name">
-                                    </div>      
+                                    </div> 
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" required autocomplete="off" name="email" class="form-control" id="email" placeholder="Enter Email">
+                                    </div> 
+                                    <div class="form-group">
+                                        <label for="contact">Contact #</label>
+                                        <input type="contact" required autocomplete="off" name="contact" class="form-control" id="contact" placeholder="Enter Contact #">
+                                    </div>       
                                     <div class="form-group">
                                         <label for="division">Division</label>
                                         <select name="division" class="form-control" required>
@@ -77,6 +85,14 @@
                                         <label for="lname">Last Name</label>
                                         <input type="text" required autocomplete="off" name="lname" value="{{ $info->lname }}" class="form-control" id="lname" placeholder="Enter Last Name">
                                     </div>      
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" required autocomplete="off" name="email" value="{{ $info->email }}" class="form-control" id="email" placeholder="Enter Email">
+                                    </div> 
+                                    <div class="form-group">
+                                        <label for="contact">Contact #</label>
+                                        <input type="contact" required autocomplete="off" name="contact" value="{{ $info->contact }}" class="form-control" id="contact" placeholder="Enter Contact #">
+                                    </div>  
                                     <div class="form-group">
                                         <label for="division">Division</label>
                                         <select name="division" class="form-control" required>
@@ -123,13 +139,14 @@
 
                     <div class="box-body table-responsive">
                         @if(count($data)>0)
+                        <div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Last Name</th>            
-                                    <th>First Name</th>            
-                                    <th>Middle Name</th>            
+                                    <th>Complete Name</th>            
+                                    <th>Email</th>                        
+                                    <th>Contact #</th>                        
                                     <th>Division</th> 
                                     <th class="text-center">Hours of<br />Training</th>
                                     <th></th>           
@@ -143,9 +160,9 @@
                                                 {{ str_pad($row->id,'4','0',STR_PAD_LEFT) }}
                                             </a>
                                         </td>
-                                        <td class="text-success">{{ $row->lname }}</td>
-                                        <td>{{ $row->fname }}</td>
-                                        <td>{{ $row->mname }}</td>                                
+                                        <td class="text-success">{{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}</td>                                                                                                           
+                                        <td>{{ $row->email }}</td>
+                                        <td>{{ $row->contact }}</td>
                                         <td>{{ \app\Division::find($row->division)->name }}</td>
                                         <td class="text-center text-danger text-bold">
                                             <a href="#info" class="editable" data-id="{{ $row->id }}">
@@ -157,14 +174,14 @@
                                         </td>
                                         <td>
                                             <a class="pull-right text-danger" href="#delete" data-id="{{ $row->id }}">
-                                                <i class="fa fa-trash-o"></i> Delete
+                                                <i class="fa fa-times"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
-
                             </table>
+                        </div>
                         @endif
                     </div>
                     <div class="box-footer">
