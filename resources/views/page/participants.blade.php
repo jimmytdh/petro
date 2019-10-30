@@ -35,8 +35,8 @@
                                         <input type="text" required autocomplete="off" name="lname" class="form-control" id="lname" placeholder="Enter Last Name">
                                     </div> 
                                     <div class="form-group">
-                                        <label for="dob">Date of Birth</label>
-                                        <input type="date" required autocomplete="off" name="dob" class="form-control" id="dob" value="Y-m-d">
+                                        <label for="designation">Designation</label>
+                                        <input type="text" required autocomplete="off" name="designation" class="form-control" id="designation" placeholder="Enter Designation">
                                     </div> 
                                     <div class="form-group">
                                         <label for="email">Email</label>
@@ -90,8 +90,8 @@
                                         <input type="text" required autocomplete="off" name="lname" value="{{ $info->lname }}" class="form-control" id="lname" placeholder="Enter Last Name">
                                     </div>     
                                     <div class="form-group">
-                                            <label for="dob">Date of Birth</label>
-                                            <input type="date" required autocomplete="off" name="dob" class="form-control" id="dob" value="{{ date('Y-m-d',strtotime($info->dob))}}">
+                                            <label for="designation">Designation</label>
+                                        <input type="text" required autocomplete="off" name="designation" class="form-control" id="designation" placeholder="Enter Designation" value="{{ $info->designation }}">
                                         </div>  
                                     <div class="form-group">
                                         <label for="email">Email</label>
@@ -153,7 +153,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Complete Name</th> 
-                                    <th class="text-center">Age</th>           
+                                    <th>Designation</th>           
                                     <th>Email</th>                        
                                     <th>Contact #</th>                        
                                     <th>Division</th> 
@@ -170,7 +170,7 @@
                                             </a>
                                         </td>
                                         <td class="text-success">{{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}</td>                                                                                                           
-                                        <td class="text-center">{{ \App\Http\Controllers\ParamController::getAge($row->dob) }}</td>
+                                        <td>{{ $row->designation }}</td>
                                         <td>{{ $row->email }}</td>
                                         <td>{{ $row->contact }}</td>
                                         <td>{{ \app\Division::find($row->division)->name }}</td>

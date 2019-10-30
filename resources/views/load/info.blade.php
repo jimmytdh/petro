@@ -15,6 +15,7 @@
         {{ $participant->lname }}, {{ $participant->fname }} {{ $participant->mname }}        
     </h4>
     <div class="info text-danger">
+        Designation: {{ $participant->designation }}<br />
         Division: {{ $participant->name }}<br />
         Email: {{ $participant->email }}<br />
         Contact: {{ $participant->contact }}

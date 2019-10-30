@@ -22,6 +22,7 @@ class ParticipantCtrl extends Controller
             $data = $data->where(function($q) use($keyword){
                 $q->where('fname','like',"%$keyword%")
                     ->orwhere('mname','like',"%$keyword%")
+                    ->orwhere('designation','like',"%$keyword%")
                     ->orwhere('lname','like',"%$keyword%");
             });
         }
@@ -51,14 +52,14 @@ class ParticipantCtrl extends Controller
             'mname' => $req->mname,
             'lname' => $req->lname,
             'email' => $req->email,
-            'dob' => $req->dob,
+            'designation' => $req->designation,
             'contact' => $req->contact,
             'division' => $req->division
         );
         $match = array(
             'fname' => $req->fname,
             'lname' => $req->lname,
-            'dob' => $req->dob
+            'designation' => $req->designation
         );
 
         $validate = Participant::where($match)->first();
@@ -101,7 +102,7 @@ class ParticipantCtrl extends Controller
             'mname' => $req->mname,
             'lname' => $req->lname,
             'email' => $req->email,
-            'dob' => $req->dob,
+            'designation' => $req->designation,
             'contact' => $req->contact,
             'division' => $req->division
         );
@@ -109,7 +110,7 @@ class ParticipantCtrl extends Controller
         $match = array(
             'fname' => $req->fname,
             'lname' => $req->lname,
-            'dob' => $req->dob
+            'designation' => $req->designation
         );
 
         $validate = Participant::where($match)
