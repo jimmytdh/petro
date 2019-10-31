@@ -1,4 +1,4 @@
-<div class="modal fade" id="trackDocument">
+<div class="modal fade" id="filter">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header bg-aqua">

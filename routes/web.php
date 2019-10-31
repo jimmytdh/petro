@@ -29,6 +29,8 @@ Route::get('/participants/delete/{id}','ParticipantCtrl@delete');
 Route::get('/participants/edit/{id}','ParticipantCtrl@edit');
 Route::post('/participants/update/{id}','ParticipantCtrl@update');
 Route::post('/participants/search','ParticipantCtrl@search');
+Route::get('/participants/notraining','ParticipantCtrl@noTraining');
+Route::post('/participants/notraining','ParticipantCtrl@searchNoTraining');
 
 Route::get('/division','DivisionCtrl@index');
 Route::post('/division/save','DivisionCtrl@save');
@@ -58,3 +60,5 @@ Route::get('/loading',function(){
 });
 
 Route::post('/param/change/year','ParamController@changeYear');
+
+Route::get('/fix/trainingdate','FixController@trainingdate');

@@ -129,7 +129,6 @@
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">List of Participants</h3>
-
                         <div class="box-tools">
                             <form method="post" action="{{ url('participants/search') }}">
                                 {{ csrf_field() }}

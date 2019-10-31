@@ -58,11 +58,15 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                     <th>First Name</th>            
                                     <th>Middle Name</th>            
                                     <th>Division</th> 
-                                    <th></th>           
+                                    <th>Certificates</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($data as $row)
+                                    <?php
+                                        $len = strlen($row->cert);
+                                    ?>
                                     <tr>
                                         <td class="text-success" width="20%">
                                             <a href="#info" class="editable" data-id="{{ $row->id }}">
@@ -70,8 +74,16 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                             </a>
                                         </td>
                                         <td width="20%">{{ $row->fname }}</td>
-                                        <td width="20%">{{ $row->mname }}</td>                                
+                                        <td width="20%">{{ $row->mname }}</td>
                                         <td width="20%">{{ $row->name }}</td>
+                                        <td width="10%">
+                                            @if($len>0)
+                                            <a href="#" class="text-success"><i class="fa fa-check"></i></a>
+                                            @else
+                                            <a href="#" class="text-danger"><i class="fa fa-times"></i></a>
+                                            @endif
+                                            &nbsp;<a href="#"><i class="fa fa-newspaper-o"></i></a>
+                                        </td>
                                         <td width="10%">
                                             <a class="pull-right text-danger" href="#delete" data-training="{{ $id }}" data-id="{{ $row->id }}">
                                                 <i class="fa fa-trash-o"></i> Delete

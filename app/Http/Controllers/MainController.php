@@ -40,6 +40,7 @@ class MainController extends Controller
                     return redirect('login')->with('status','banned');
                 }
 
+                Session::put('year',date('Y'));
                 Session::put('user',$login);
                 Session::put('isLogin',true);
 

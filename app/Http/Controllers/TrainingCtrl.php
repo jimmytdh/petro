@@ -48,7 +48,7 @@ class TrainingCtrl extends Controller
 
         $validateName = Training::where($data)->first();
         if(!$validateName) {
-            Training::insert($data);
+            Training::create($data);
             return redirect('/trainings')->with('status',[
                 'status' => 'success',
                 'title' => 'Added',
@@ -63,7 +63,6 @@ class TrainingCtrl extends Controller
             'status' => 'error'
         ]);
     }
-
 
     public function edit($id)
     {
@@ -125,6 +124,7 @@ class TrainingCtrl extends Controller
         $list = Participant::select('participants.*','divisions.name')
                 ->whereNotIn('participants.id',$included)
                 ->leftJoin('divisions','divisions.id','=','participants.division')
+                ->orderBy('participants.lname','asc')
                 ->get();
 
         $data = Monitoring::select(
@@ -132,7 +132,8 @@ class TrainingCtrl extends Controller
                         'participants.fname',
                         'participants.mname',
                         'divisions.name',
-                        'participants.id'
+                        'participants.id',
+                        'monitoring.cert as cert'
                     )
                     ->leftJoin('participants','participants.id','=','monitoring.participant_id')
                     ->leftJoin('divisions','divisions.id','=','participants.division')
@@ -162,7 +163,7 @@ class TrainingCtrl extends Controller
                 'training_id' => $id,
                 'participant_id' => $row
             );
-            Monitoring::insert($data);
+            Monitoring::create($data);
         }
         return redirect()->back()->with('status',[
             'status' => 'success',

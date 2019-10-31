@@ -46,10 +46,10 @@
                 <a href="{{ url('/trainings') }}/">
                     <i class="fa fa-clipboard"></i> <span>Trainings</span>
                 </a>
-            </li>            
-            <li class="{{ ($menu=='monitoring') ? 'active':'' }}">
-                <a href="{{ url('/monitoring') }}/">
-                    <i class="fa fa-area-chart"></i> <span>Monitoring</span>
+            </li>
+            <li class="{{ ($menu=='deliverables') ? 'active':'' }}">
+                <a href="{{ url('/deliverables') }}/">
+                    <i class="fa fa-random"></i> <span>Deliverables</span>
                 </a>
             </li>
             {{--  <li class="treeview @if($menu=='documents' || $menu=='accept' || $menu=='pending') menu-open @endif ">
@@ -65,7 +65,17 @@
                     <li class="{{ ($menu=='pending') ? 'active':'' }}"><a href="{{ url('/documents/pending') }}"><i class="fa fa-clock-o"></i> Pending Documents</a></li>
                 </ul>
             </li>  --}}
-            
+            <li class="header">REPORTS</li>
+            <li class="{{ ($menu=='monitoring') ? 'active':'' }}">
+                <a href="{{ url('/monitoring') }}/">
+                    <i class="fa fa-area-chart"></i> <span>Monitoring</span>
+                </a>
+            </li>
+            <li class="{{ ($menu=='notraining') ? 'active':'' }}">
+                <a href="{{ url('/participants/notraining') }}/">
+                    <i class="fa fa-user-times"></i> <span>No Traning</span>
+                </a>
+            </li>
             <li class="header">ACCOUNT SETTINGS</li>
             <li>
                 <a href="{{ url('/logout') }}">

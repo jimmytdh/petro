@@ -102,9 +102,7 @@
 <!-- ./wrapper -->
 @yield('modal')
 <!-- jQuery 3 -->
-@include('modal.accept')
 @include('modal.password')
-@include('modal.track')
 <script src="{{ url('/back/bower_components') }}/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ url('/back/bower_components') }}/jquery-ui/jquery-ui.min.js"></script>

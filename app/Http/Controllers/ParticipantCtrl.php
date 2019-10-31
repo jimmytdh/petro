@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Monitoring;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Participant;
@@ -64,7 +66,7 @@ class ParticipantCtrl extends Controller
 
         $validate = Participant::where($match)->first();
         if(!$validate){
-            Participant::insert($data);
+            Participant::create($data);
             return redirect('/participants')->with('status',[
                 'status' => 'success',
                 'title' => 'Added',
@@ -133,5 +135,71 @@ class ParticipantCtrl extends Controller
             'title' => 'Updated',
             'msg' => "$req->fname $req->lname successfully added to the system!"
         ]);
+    }
+
+    public function noTraining()
+    {
+        $year = Session::get('year');
+        $start = Carbon::parse('01-01-'.$year.' 00:00:00');
+        $end = Carbon::parse('31-12-'.$year.' 23:23:59');
+
+//        $crashedCarIds = CrashedCar::pluck('car_id')->all();
+//        $cars = Car::whereNotIn('id', $crashedCarIds)->select(...)->get();
+        $withTrainings = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
+                ->whereBetween('trainings.date_training',[$start,$end])
+                ->groupBy('monitoring.participant_id')
+                ->pluck('monitoring.participant_id')
+                ->all();
+
+        $data = Participant::whereNotIn('id',$withTrainings);
+
+        $noTrainingFilter = Session::get('noTrainingFilter');
+        $filterKeyword = '';
+        $filterDivision = '';
+
+        if($noTrainingFilter)
+        {
+            $noTrainingFilter = (object)$noTrainingFilter;
+            if($noTrainingFilter->keyword){
+                $k = $noTrainingFilter->keyword;
+                $data = $data->where(function($q) use($k){
+                    $q->where('fname','like',"%$k%")
+                        ->orwhere('mname','like',"%$k%")
+                        ->orwhere('designation','like',"%$k%")
+                        ->orwhere('lname','like',"%$k%");
+                });
+                $filterKeyword = $noTrainingFilter->keyword;
+            }
+
+            if($noTrainingFilter->division){
+                $data = $data->where('division',$noTrainingFilter->division);
+                $filterDivision = $noTrainingFilter->division;
+            }
+        }
+
+        $data = $data
+                ->orderBy('lname','asc')
+                ->paginate(20);
+
+        $division = Division::orderBy('name','asc')->get();
+
+        return view('page.notraining',[
+            'menu' => 'notraining',
+            'title' => 'List of no Trainings',
+            'data' => $data,
+            'division' => $division,
+            'filterKeyword' => $filterKeyword,
+            'filterDivision' => $filterDivision
+        ]);
+    }
+
+    public function searchNoTraining(Request $req)
+    {
+        Session::put('noTrainingFilter',[
+            'keyword' => $req->keyword,
+            'division' => $req->division
+        ]);
+
+        return redirect('/participants/notraining');
     }
 }
