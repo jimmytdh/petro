@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Deliverable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Training;
@@ -24,11 +25,14 @@ class TrainingCtrl extends Controller
         }
         $data = $data->paginate(30);
 
+        $deliverable = Deliverable::orderBy('name','asc')->get();
+
         return view('page.training',[
             'menu' => 'trainings',
             'data' => $data,
             'edit' => $edit,
-            'info' => $info
+            'info' => $info,
+            'deliverable' => $deliverable
         ]);
     }
 
@@ -43,7 +47,8 @@ class TrainingCtrl extends Controller
         $data = array(
             'name' => $req->name,
             'date_training' => $req->date_training,
-            'hours' => $req->hours
+            'hours' => $req->hours,
+            'deliverable' => $req->deliverable
         );
 
         $validateName = Training::where($data)->first();
@@ -75,7 +80,8 @@ class TrainingCtrl extends Controller
         $data = array(
             'name' => $req->name,
             'date_training' => $req->date_training,
-            'hours' => $req->hours
+            'hours' => $req->hours,
+            'deliverable' => $req->deliverable
         );
 
         $validate = Training::where($data)

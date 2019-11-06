@@ -4,14 +4,14 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
 @extends('app')
 
 @section('css')
-
+    <link rel="stylesheet" href="{{ url('back/css/multi-select.css') }}">
 @endsection
 
 @section('content')
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
-            <div class="col-md-4">
+            <div class="col-md-5">
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Select Participants to Add to Training</h3>
@@ -21,15 +21,20 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                     {{ csrf_field() }}
                                     <div class="box-body">
                                         <div class="form-group">
-                                            <select class="form-control" name="list[]" required multiple="multiple" data-placeholder="Select Participant" size="20" style="height: 100%;">
+{{--                                            <select class="form-control" name="lists[]" required multiple="multiple" data-placeholder="Select Participant" size="20" style="height: 100%;">--}}
+{{--                                                @foreach($list as $l)--}}
+{{--                                                    <option value="{{ $l->id }}">{{ $l->lname }}, {{ $l->fname }} {{ $l->mname }} ({{ $l->name }})</option>--}}
+{{--                                                @endforeach                                               --}}
+{{--                                            </select>--}}
+                                            <select id='pre-selected-options' name="list[]" multiple='multiple'>
                                                 @foreach($list as $l)
                                                     <option value="{{ $l->id }}">{{ $l->lname }}, {{ $l->fname }} {{ $l->mname }} ({{ $l->name }})</option>
-                                                @endforeach                                               
+                                                @endforeach
                                             </select>
                                         </div>                                                               
                                     </div>
                                     <!-- /.box-body -->
-    
+
                                     <div class="box-footer">
                                         <a href="{{ url('trainings') }}" class="btn btn-default">
                                             <i class="fa fa-arrow-left"></i> Back
@@ -39,10 +44,12 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                         </button>
                                     </div>
                                 </form>
+
+
                             </div>
                         </div>
                     </div>
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">{{ $name }}</h3>                    
@@ -138,8 +145,10 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
 @endsection
 
 @section('js')
+    <script src="{{ url('/back/js/jquery.multi-select.js') }}"></script>
     @include('script.info')
     <script>
+        $('#pre-selected-options').multiSelect();
         $('a[href="#delete"]').on('click',function(){
             var id = $(this).data('id');
             var training = $(this).data('training');

@@ -18,8 +18,12 @@ use App\Monitoring;
                         <h3 class="box-title">List of Participants with No Training for the Year of {{ Session::get('year') }}</h3>
                         <br />
                         <font class="text-danger text-bold">Result: {{ $data->total() }}</font>
+
                         <div class="box-tools">
-                            <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#filter">
+                            @if(Session::get('noTrainingFilter'))
+                                <a href="{{ url('/param/clear/noTrainingFilter') }}" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i> Clear Filter</a>
+                            @endif
+                            <button type="submit" class="btn btn-success btn-sm" data-toggle="modal" data-target="#filter">
                                 Filter Result <i class="fa fa-filter"></i>
                             </button>
                         </div>

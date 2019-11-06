@@ -90,7 +90,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0
         </div>
-        <strong><a href="#">TDH Tracking</a>.</strong> All rights
+        <strong><a href="#">TDH PETRO</a>.</strong> All rights
         reserved.
     </footer>
 

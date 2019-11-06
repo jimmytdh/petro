@@ -9,6 +9,7 @@ class Training extends Model
     protected $fillable = [
         'name',
         'date_training',
-        'hours'
+        'hours',
+        'deliverable'
     ];
 }

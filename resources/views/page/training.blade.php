@@ -33,7 +33,16 @@
                                     <div class="form-group">
                                         <label for="name">No. of Hours</label>
                                         <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="1" class="form-control" placeholder="Enter Training Name">
-                                    </div>                                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Deliverable</label>
+                                        <select name="deliverable" class="form-control">
+                                            <option value="">Select Deliverable...</option>
+                                            @foreach($deliverable as $d)
+                                                <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <!-- /.box-body -->
 
@@ -67,7 +76,16 @@
                                     <div class="form-group">
                                         <label for="name">No. of Hours</label>
                                         <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="{{ $info->hours }}" class="form-control" placeholder="Enter Training Name">
-                                    </div>                                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Deliverable</label>
+                                        <select name="deliverable" class="form-control">
+                                            <option value="">Select Deliverable...</option>
+                                            @foreach($deliverable as $d)
+                                                <option value="{{ $d->id }}" @if($info->deliverable==$d->id) selected @endif>{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="box-footer">
@@ -125,6 +143,9 @@
                                             </a>
                                         </td>
                                         <td width="30%" class="text-success">
+                                            @if($row->deliverable>0)
+                                                <small><i class="fa fa-link text-danger"></i></small>
+                                            @endif
                                             {{ $row->name }}
                                         </td>
                                         <td width="20%" class="text-danger">{{ date('M d, Y',strtotime($row->date_training)) }}</td>                                

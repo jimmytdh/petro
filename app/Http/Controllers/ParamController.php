@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Section;
-use App\Tracking;
-use App\TrackingMaster;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -65,6 +62,21 @@ class ParamController extends Controller
     public function changeYear(Request $req)
     {
         Session::put('year',$req->year);
+        return redirect()->back();
+    }
+
+    static function convertNumToMonth($num)
+    {
+        $monthNum  = $num;
+        $dateObj   = \DateTime::createFromFormat('!m', $monthNum);
+        $monthName = $dateObj->format('F'); // March
+
+        return $monthName;
+    }
+
+    public function clearSession($session)
+    {
+        Session::forget($session);
         return redirect()->back();
     }
 }

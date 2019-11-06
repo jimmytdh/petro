@@ -47,9 +47,9 @@
                     <i class="fa fa-clipboard"></i> <span>Trainings</span>
                 </a>
             </li>
-            <li class="{{ ($menu=='deliverables') ? 'active':'' }}">
-                <a href="{{ url('/deliverables') }}/">
-                    <i class="fa fa-random"></i> <span>Deliverables</span>
+            <li class="{{ ($menu=='deliverable') ? 'active':'' }}">
+                <a href="{{ url('/deliverable') }}/">
+                    <i class="fa fa-random"></i> <span>Deliverable</span>
                 </a>
             </li>
             {{--  <li class="treeview @if($menu=='documents' || $menu=='accept' || $menu=='pending') menu-open @endif ">
