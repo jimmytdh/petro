@@ -22,6 +22,7 @@ class DeliverableCtrl extends Controller
         $filterKeyword = '';
         $filterMonth = 0;
         $filterYear = 0;
+        $trainings = '';
         $filter = Session::get('deliverableFilter');
         $data = Deliverable::select('*');
         if($filter){
@@ -47,6 +48,10 @@ class DeliverableCtrl extends Controller
                 ->orderBy('target_date','desc')
                 ->paginate(30);
 
+        if($edit){
+            $trainings = Training::where('deliverable',$info->id)->get();
+        }
+
         $division = Division::orderBy('name','asc')->get();
 
         return view('page.deliverable',[
@@ -57,7 +62,8 @@ class DeliverableCtrl extends Controller
             'filterKeyword' => $filterKeyword,
             'filterMonth' => $filterMonth,
             'filterYear' => $filterYear,
-            'division' => $division
+            'division' => $division,
+            'trainings' => $trainings
         ]);
     }
 

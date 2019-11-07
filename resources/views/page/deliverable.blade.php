@@ -124,6 +124,20 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                             </form>
                         </div>
                     </div>
+                    @if(count($trainings)>0)
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Trainings Link</h3>
+                        </div>
+                        <div class="box-body">
+                            @foreach($trainings as $t)
+                            <a class="btn btn-block btn-social btn-dropbox btn-sm" href="{{ url('trainings/list/'.$t->id) }}" target="_blank">
+                                <i class="fa fa-folder-open-o"></i> {{ $t->name }}
+                            </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
             @endif
             <div class="col-md-9">

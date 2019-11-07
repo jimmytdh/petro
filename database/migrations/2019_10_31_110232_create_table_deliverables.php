@@ -18,8 +18,7 @@ class CreateTableDeliverables extends Migration
             $table->string('name');
             $table->integer('division');
             $table->integer('target');
-            $table->integer('target_month');
-            $table->integer('target_year');
+            $table->date('target_date');
             $table->timestamps();
         });
     }
