@@ -58,9 +58,15 @@ Route::get('/trainings/list/{id}','TrainingCtrl@list');
 Route::post('/trainings/add/{id}','TrainingCtrl@add');
 Route::get('/trainings/participants/delete/{training_id}/{participant_id}','TrainingCtrl@deleteParticipant');
 
+//Training Cert
+Route::get('/trainings/certificate/{id}','MonitoringCtrl@certificate');
+Route::post('/trainings/certificate/{id}','MonitoringCtrl@certificateUpload');
+Route::get('/trainings/certificate/delete/{id}','MonitoringCtrl@certificateDelete');
+
 Route::get('/monitoring','MonitoringCtrl@index');
 Route::post('/monitoring/{column}/{id}','MonitoringCtrl@save');
 Route::post('/monitoring/search','MonitoringCtrl@search');
+
 
 Route::get('/load/info/{id}','MonitoringCtrl@info');
 Route::get('/loading',function(){

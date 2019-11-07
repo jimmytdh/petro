@@ -40,9 +40,15 @@
             <tr>
                 <td class="text-right text-center">{{ $c++ }}</td>
                 <td class="text-left">
-                    <small class="text-danger">{{ date('F d, Y',strtotime($m->date_training)) }}</small>
+                    <small class="text-success">{{ date('F d, Y',strtotime($m->date_training)) }}</small>
                     <br />
                     {{ $m->name }}
+                    @if(strlen($m->cert)>0)
+                    <br>
+                       <small><a href="{{ url($m->cert) }}" class="text-danger" target="_blank">
+                               <i class="fa fa-file-pdf-o"></i> View Certificate
+                           </a></small>
+                    @endif
                 </td>
                 <td class="text-bold text-center">{{ $m->hours }}</td>
                 <?php $total += $m->hours; ?>

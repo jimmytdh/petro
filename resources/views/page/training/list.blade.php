@@ -76,7 +76,7 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                     ?>
                                     <tr>
                                         <td class="text-success" width="20%">
-                                            <a href="#info" class="editable" data-id="{{ $row->id }}">
+                                            <a href="#info" class="editable" data-id="{{ $row->participant_id }}">
                                                 {{ $row->lname }}
                                             </a>
                                         </td>
@@ -89,10 +89,10 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                             @else
                                             <a href="#" class="text-danger"><i class="fa fa-times"></i></a>
                                             @endif
-                                            &nbsp;<a href="#"><i class="fa fa-newspaper-o"></i></a>
+                                            &nbsp;<a href="#certificate" data-toggle="modal" data-id="{{ $row->id }}"><i class="fa fa-newspaper-o"></i></a>
                                         </td>
                                         <td width="10%">
-                                            <a class="pull-right text-danger" href="#delete" data-training="{{ $id }}" data-id="{{ $row->id }}">
+                                            <a class="pull-right text-danger" href="#delete" data-training="{{ $id }}" data-id="{{ $row->participant_id }}">
                                                 <i class="fa fa-trash-o"></i> Delete
                                             </a>
                                         </td>
@@ -142,6 +142,26 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade" id="certificate">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Update Certificate</h4>
+                </div>
+                <div class="certificate_body">
+                    <div class="text-center" style="padding:20px">
+                        <img src="{{ url('img/loading.gif') }}" /><br />
+                        <small class="text-muted">Loading...Please wait...</small>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 @endsection
 
 @section('js')
@@ -154,6 +174,16 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
             var training = $(this).data('training');
             $('#delete').modal('show');
             $('#delete_link').attr('href',"{{ url('/trainings/participants/delete/') }}/"+training+"/"+id);
+        });
+
+        $('a[href="#certificate"]').on('click',function(){
+            var id = $(this).data('id');
+            var url = "{{ url('/trainings/certificate') }}/"+id;
+            var loading = "{{ url('/loading') }}";
+            $('.certificate_body').load(loading);
+            setTimeout(function () {
+                $('.certificate_body').load(url);
+            },1500);
         });
     </script>
 @endsection

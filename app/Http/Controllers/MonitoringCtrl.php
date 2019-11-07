@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Division;
 use App\Monitoring;
 use App\Participant;
+use App\Training;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -83,6 +86,60 @@ class MonitoringCtrl extends Controller
         return view('load.info',[
             'participant' => $participant,
             'monitoring' => $monitoring
+        ]);
+    }
+
+    public function certificate($id){
+        $data = Monitoring::find($id);
+        return view('load.certificate',[
+            'data' => $data,
+            'cert' => $data->cert
+        ]);
+    }
+
+    public function certificateUpload(Request $req,$id){
+        $data = Monitoring::find($id);
+        $training = Training::find($data->training_id)->name;
+        $user = Participant::find($data->participant_id);
+        $division = Division::find($user->division)->name;
+        $year = Training::find($data->training_id)->date_training;
+        $year = Carbon::parse($year)->format('Y');
+
+        $name = "$user->fname $user->lname $training";
+        $name = preg_replace('/[^A-Za-z0-9\-]/', ' ', $name);
+        $fileName = str_replace(' ','_',$name).".".$req->file('file')->getClientOriginalExtension();
+
+        $path = "upload/$division/$year";
+
+        $req->file('file')->move($path,$fileName);
+        $data->update([
+             'cert' => "$path/$fileName"
+        ]);
+
+        return redirect()->back()->with('status',[
+            'status' => 'success',
+            'title' => 'Upload Success',
+            'msg' => "Certificate of $user->fname $user->lname successfully uploaded!"
+        ]);
+    }
+
+    public function certificateDelete($id)
+    {
+        $data = Monitoring::find($id);
+
+        $cert = $data->cert;
+        if(file_exists($cert)){
+            unlink($data);
+
+            $data->update([
+                'cert' => ''
+            ]);
+        }
+
+        return redirect()->back()->with('status',[
+            'status' => 'success',
+            'title' => 'Success',
+            'msg' => "Certificate successfully removed!"
         ]);
     }
 }
