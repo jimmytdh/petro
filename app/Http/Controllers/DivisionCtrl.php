@@ -112,4 +112,13 @@ class DivisionCtrl extends Controller
             'msg' => "1 division successfully deleted!"
         ]);
     }
+
+    static function getName($id)
+    {
+        $d = Division::find($id);
+        if($d)
+            return $d->name;
+
+        return false;
+    }
 }

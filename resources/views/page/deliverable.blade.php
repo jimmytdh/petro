@@ -12,7 +12,7 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
         <!-- Main content -->
         <section class="content">
             @if(!$edit)
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Add Deliverable</h3>
@@ -24,6 +24,14 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                     <div class="form-group">
                                         <label for="name">Title</label>
                                         <input type="text" autofocus required autocomplete="off" name="name" class="form-control" id="name" placeholder="Enter Deliverable Title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Division</label>
+                                        <select name="division" id="" class="form-control" required>
+                                            @foreach($division as $d)
+                                                <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Target Personnel</label>
@@ -59,7 +67,7 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                     </div>
                 </div>
             @else
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title">Update Participant</h3>
@@ -73,23 +81,33 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                         <input type="text" autofocus required autocomplete="off" value="{{ $info->name }}" name="name" class="form-control" id="name" placeholder="Enter Division Name">
                                     </div>
                                     <div class="form-group">
+                                        <label for="">Division</label>
+                                        <select name="division" id="" class="form-control" required>
+                                            @foreach($division as $d)
+                                                <option @if($d->id == $info->division) selected @endif value="{{ $d->id }}">{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="">Target Personnel</label>
                                         <input type="number" min="1" required autocomplete="off" name="target" value="{{ $info->target }}" class="form-control" placeholder="0">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Target Month</label>
                                         <select name="month" id="" class="form-control" required>
+                                            <?php $m = \Carbon\Carbon::parse($info->target_date)->format('m'); ?>
                                             @for($i=1; $i<=12; $i++)
-                                                <option value="{{ $i }}" @if($i==$info->target_month) selected @endif>{{ \App\Http\Controllers\ParamController::convertNumToMonth($i) }}</option>
+                                                <option value="{{ $i }}" @if($i==$m) selected @endif>{{ \App\Http\Controllers\ParamController::convertNumToMonth($i) }}</option>
                                             @endfor
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Target Year</label>
                                         <select name="year" id="" class="form-control" required>
+                                            <?php $y = \Carbon\Carbon::parse($info->target_date)->format('Y'); ?>
                                             <?php $year = (date('Y'))+1; ?>
                                             @for($i=1; $i<=10; $i++)
-                                                <option @if($year==$info->target_year) selected @endif>{{ $year-- }}</option>
+                                                <option @if($year==$y) selected @endif>{{ $year-- }}</option>
                                             @endfor
                                         </select>
                                     </div>
@@ -108,7 +126,7 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                     </div>
                 </div>
             @endif
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">List of Deliverable</h3>
@@ -129,9 +147,9 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                 <tr>
                                     <th>ID</th>
                                     <th>Title</th>
+                                    <th>Division</th>
                                     <th>Target<br/>Personnel</th>
-                                    <th>Target<br/>Month</th>
-                                    <th>Target<br/>Year</th>
+                                    <th>Target<br/>Date</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
@@ -150,9 +168,13 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                             @endif
                                             {{ $row->name }}
                                         </td>
+                                        <td>{{ \App\Http\Controllers\DivisionCtrl::getName($row->division) }}</td>
                                         <td>{{ $row->target }}</td>
-                                        <td>{{ \App\Http\Controllers\ParamController::convertNumToMonth($row->target_month) }}</td>
-                                        <td>{{ $row->target_year }}</td>
+                                        <td>
+                                            @if($row->target_date)
+                                            {{ \Carbon\Carbon::parse($row->target_date)->format('M Y') }}
+                                            @endif
+                                        </td>
                                         <td>
                                             <?php
                                                 $total = 0;

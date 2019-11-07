@@ -9,8 +9,8 @@ class Deliverable extends Model
     protected $table = 'deliverable';
     protected $fillable = [
         'name',
+        'division',
         'target',
-        'target_month',
-        'target_year'
+        'target_date'
     ];
 }

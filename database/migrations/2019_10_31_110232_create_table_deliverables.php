@@ -16,6 +16,7 @@ class CreateTableDeliverables extends Migration
         Schema::create('deliverable', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('division');
             $table->integer('target');
             $table->integer('target_month');
             $table->integer('target_year');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Deliverable;
 use App\Training;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Division;
 use Illuminate\Support\Facades\Session;
@@ -43,9 +44,10 @@ class DeliverableCtrl extends Controller
             }
         }
         $data = $data
-                ->orderBy('target_year','desc')
-                ->orderBy('target_month','desc')
+                ->orderBy('target_date','desc')
                 ->paginate(30);
+
+        $division = Division::orderBy('name','asc')->get();
 
         return view('page.deliverable',[
             'menu' => 'deliverable',
@@ -54,7 +56,8 @@ class DeliverableCtrl extends Controller
             'info' => $info,
             'filterKeyword' => $filterKeyword,
             'filterMonth' => $filterMonth,
-            'filterYear' => $filterYear
+            'filterYear' => $filterYear,
+            'division' => $division
         ]);
     }
 
@@ -80,11 +83,13 @@ class DeliverableCtrl extends Controller
                 'status' => 'error'
             ]);
         }else {
+            $tmp = "$req->year-$req->month-01";
+            $date = Carbon::parse($tmp)->endOfMonth();
             $table = new Deliverable();
             $table->name = $name;
+            $table->division = $req->division;
             $table->target = $req->target;
-            $table->target_month = $req->month;
-            $table->target_year = $req->year;
+            $table->target_date = $date;
             $table->save();
             return redirect('/deliverable')->with('status',[
                 'status' => 'success',
@@ -131,12 +136,14 @@ class DeliverableCtrl extends Controller
                 'status' => 'error'
             ]);
         }
+        $tmp = "$req->year-$req->month-01";
+        $date = Carbon::parse($tmp)->endOfMonth();
         $data = Deliverable::find($id)
             ->update([
                 'name' => $req->name,
+                'division' => $req->division,
                 'target' => $req->target,
-                'target_month' => $req->month,
-                'target_year' => $req->year
+                'target_date' => $date
             ]);
 
         return redirect()->back()->with('status',[
@@ -161,5 +168,21 @@ class DeliverableCtrl extends Controller
             'title' => 'Deleted',
             'msg' => "1 deliverable successfully deleted!"
         ]);
+    }
+
+    public function getByDivision($division,$date)
+    {
+        $date = Carbon::parse($date);
+        $data = Deliverable::select('id','name');
+        if($division!='all'){
+            $data = $data->where('division',$division);
+        }
+
+        $data = $data
+                ->where('target_date','<=',$date)
+                ->orderBy('name','asc')
+                ->get();
+
+        return $data;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Deliverable;
+use App\Division;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Training;
@@ -26,13 +27,15 @@ class TrainingCtrl extends Controller
         $data = $data->paginate(30);
 
         $deliverable = Deliverable::orderBy('name','asc')->get();
+        $division = Division::orderBy('name','asc')->get();
 
         return view('page.training',[
             'menu' => 'trainings',
             'data' => $data,
             'edit' => $edit,
             'info' => $info,
-            'deliverable' => $deliverable
+            'deliverable' => $deliverable,
+            'division' => $division
         ]);
     }
 

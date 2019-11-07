@@ -15,34 +15,47 @@
             @if(!$edit)
                 <div class="col-md-4">
                     <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Add Training</h3>
-                        </div>
                         <div class="box-body">
                             <form method="post" action="{{ url('trainings/save') }}">
                                 {{ csrf_field() }}
                                 <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="name">Training Name</label>
-                                        <input type="text" autofocus required autocomplete="off" name="name" class="form-control" placeholder="Enter Training Name">
-                                    </div> 
-                                    <div class="form-group">
-                                        <label for="name">Date</label>
-                                        <input type="date" autofocus required autocomplete="off" name="date_training" class="form-control" value="{{ date('Y-m-d') }}">
-                                    </div>  
-                                    <div class="form-group">
-                                        <label for="name">No. of Hours</label>
-                                        <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="1" class="form-control" placeholder="Enter Training Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Deliverable</label>
-                                        <select name="deliverable" class="form-control">
-                                            <option value="">Select Deliverable...</option>
-                                            @foreach($deliverable as $d)
-                                                <option value="{{ $d->id }}">{{ $d->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    <fieldset>
+                                        <legend class="text-bold text-success"><small>Add Training</small></legend>
+                                        <div class="form-group">
+                                            <label for="name">Training Name</label>
+                                            <input type="text" autofocus required autocomplete="off" name="name" class="form-control" placeholder="Enter Training Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Date</label>
+                                            <input type="date" id="date" autofocus required autocomplete="off" name="date_training" class="form-control" value="{{ date('Y-m-d') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">No. of Hours</label>
+                                            <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="1" class="form-control" placeholder="Enter Training Name">
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="text-bold text-success"><small>Deliverable</small></legend>
+                                        <div class="form-group">
+                                            <label for="">Filter by Division</label>
+                                            <select name="deliverable" class="form-control" id="filterDivision">
+                                                <option value="all">View All...</option>
+                                                @foreach($division as $d)
+                                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Title</label>
+                                            <select name="deliverable" class="form-control" id="deliverable">
+                                                <option value="">Select Deliverable...</option>
+                                                @foreach($deliverable as $d)
+                                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </fieldset>
+
                                 </div>
                                 <!-- /.box-body -->
 
@@ -58,28 +71,39 @@
             @else
                 <div class="col-md-4">
                     <div class="box box-warning">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Update Training</h3>
-                        </div>
                         <div class="box-body">
                             <form role="form" method="post" action="{{ url('trainings/update/'.$info->id) }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="box-body">
+                                    <fieldset>
+                                        <legend class="text-bold text-success"><small>Update Training</small></legend>
+                                    </fieldset>
                                     <div class="form-group">
                                         <label for="name">Training Name</label>
                                         <input type="text" autofocus required autocomplete="off" value="{{ $info->name }}" name="name" class="form-control" placeholder="Enter Training Name">
                                     </div> 
                                     <div class="form-group">
                                         <label for="name">Date</label>
-                                        <input type="date" autofocus required autocomplete="off" name="date_training" class="form-control" value="{{ $info->date_training }}">
+                                        <input type="date" id="date" required autocomplete="off" name="date_training" class="form-control" value="{{ $info->date_training }}">
                                     </div>  
                                     <div class="form-group">
                                         <label for="name">No. of Hours</label>
                                         <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="{{ $info->hours }}" class="form-control" placeholder="Enter Training Name">
                                     </div>
+                                    <fieldset>
+                                        <legend class="text-bold text-success"><small>Deliverable</small></legend>
+                                    </fieldset>
                                     <div class="form-group">
-                                        <label for="">Deliverable</label>
-                                        <select name="deliverable" class="form-control">
+                                        <div class="form-group">
+                                            <label for="">Filter by Division</label>
+                                            <select name="deliverable" class="form-control" id="filterDivision">
+                                                <option value="all">View All...</option>
+                                                @foreach($division as $d)
+                                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <select name="deliverable" class="form-control" id="deliverable">
                                             <option value="">Select Deliverable...</option>
                                             @foreach($deliverable as $d)
                                                 <option value="{{ $d->id }}" @if($info->deliverable==$d->id) selected @endif>{{ $d->name }}</option>
@@ -217,5 +241,36 @@
             $('#delete').modal('show');
             $('#delete_link').attr('href',"{{ url($menu.'/delete/') }}/"+id);
         });
+
+        filterDeliverable();
+
+        $('#filterDivision').change(function(){
+            filterDeliverable();
+        });
+        $('#date').change(function () {
+            filterDeliverable();
+        });
+
+        function filterDeliverable()
+        {
+            var division = $('#filterDivision').find(':selected').val();
+            var date = $('#date').val();
+            var url = "{{ url('/deliverable/get') }}/"+division+"/"+date;
+            console.log(url);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('#deliverable').empty().append($("<option></option>")
+                        .attr("value","")
+                        .text("Select Deliverable..."));
+                    $.each(data, function(key, val){
+                        $('#deliverable').append($("<option></option>")
+                            .attr("value",val.id)
+                            .text(val.name));
+                    });
+                }
+            });
+        }
     </script>
 @endsection

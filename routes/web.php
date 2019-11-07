@@ -45,6 +45,7 @@ Route::get('/deliverable/delete/{id}','DeliverableCtrl@delete');
 Route::get('/deliverable/edit/{id}','DeliverableCtrl@edit');
 Route::post('/deliverable/update/{id}','DeliverableCtrl@update');
 Route::post('/deliverable/search','DeliverableCtrl@search');
+Route::get('/deliverable/get/{division}/{date}','DeliverableCtrl@getByDivision');
 
 Route::get('/trainings','TrainingCtrl@index');
 Route::post('/trainings/save','TrainingCtrl@save');
