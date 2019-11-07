@@ -185,7 +185,7 @@ class DeliverableCtrl extends Controller
         }
 
         $data = $data
-                ->where('target_date','<=',$date)
+                ->where('target_date','>=',$date)
                 ->orderBy('name','asc')
                 ->get();
 

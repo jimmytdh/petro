@@ -129,7 +129,7 @@ class MonitoringCtrl extends Controller
 
         $cert = $data->cert;
         if(file_exists($cert)){
-            unlink($data);
+            unlink($cert);
 
             $data->update([
                 'cert' => ''
