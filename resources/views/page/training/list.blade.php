@@ -87,7 +87,11 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                             @if($len>0)
                                             <a href="#" class="text-success"><i class="fa fa-check"></i></a>
                                             @else
-                                            <a href="#" class="text-danger"><i class="fa fa-times"></i></a>
+                                                @if($row->with_cert==1)
+                                                    <a href="#" class="text-warning"><i class="fa fa-exclamation"></i></a>
+                                                @else
+                                                    <a href="#" class="text-danger"><i class="fa fa-times"></i></a>
+                                                @endif
                                             @endif
                                             &nbsp;<a href="#certificate" data-toggle="modal" data-id="{{ $row->id }}"><i class="fa fa-newspaper-o"></i></a>
                                         </td>

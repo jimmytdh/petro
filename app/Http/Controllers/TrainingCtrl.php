@@ -143,7 +143,8 @@ class TrainingCtrl extends Controller
                         'participants.mname',
                         'divisions.name',
                         'participants.id as participant_id',
-                        'monitoring.cert'
+                        'monitoring.cert',
+                        'monitoring.with_cert'
                     )
                     ->leftJoin('participants','participants.id','=','monitoring.participant_id')
                     ->leftJoin('divisions','divisions.id','=','participants.division')

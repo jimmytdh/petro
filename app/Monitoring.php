@@ -11,6 +11,7 @@ class Monitoring extends Model
         'participant_id',
         'training_id',
         'cert',
+        'with_cert',
         'self',
         'supervisor'
     ];

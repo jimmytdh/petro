@@ -1,6 +1,10 @@
 <?php
     $user =  \Illuminate\Support\Facades\Session::get('user');
     use App\Monitoring;
+
+    $d = Session::get('year')."-01-01";
+    $start_date = \Carbon\Carbon::parse($d)->startOfYear();
+    $end_date = \Carbon\Carbon::parse($d)->endOfYear();
 ?>
 @extends('app')
 
@@ -128,7 +132,13 @@
             <div class="col-md-9">
                 <div class="box box-success">
                     <div class="box-header">
-                        <h3 class="box-title">List of Participants</h3>
+                        <h3 class="box-title">
+                            List of Participants
+                            <br>
+                            <small class="text-danger text-bold">
+                                Result: {{ number_format($data->total()) }}
+                            </small>
+                        </h3>
                         <div class="box-tools">
                             <form method="post" action="{{ url('participants/search') }}">
                                 {{ csrf_field() }}
@@ -151,13 +161,12 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Complete Name</th> 
-                                    <th>Designation</th>           
-                                    <th>Email</th>                        
-                                    <th>Contact #</th>                        
+                                    <th>Complete Name</th>
+                                    <th>Email/Contact</th>
                                     <th>Division</th> 
                                     <th class="text-center">Hours of<br />Training</th>
-                                    <th></th>           
+                                    <th class="text-center">No. of<br />Certificates</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -168,22 +177,41 @@
                                                 {{ str_pad($row->id,'4','0',STR_PAD_LEFT) }}
                                             </a>
                                         </td>
-                                        <td class="text-success">{{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}</td>                                                                                                           
-                                        <td>{{ $row->designation }}</td>
-                                        <td>{{ $row->email }}</td>
-                                        <td>{{ $row->contact }}</td>
+                                        <td class="text-success">
+                                            {{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}
+                                            <br>
+                                            <small class="text-muted">{{ $row->designation }}</small>
+                                        </td>
+                                        <td>
+                                            {{ $row->email }}
+                                            <br>
+                                            <small class="text-muted">{{ $row->contact }}</small>
+                                        </td>
                                         <td>{{ \app\Division::find($row->division)->name }}</td>
                                         <td class="text-center text-danger text-bold">
                                             <a href="#info" class="editable" data-id="{{ $row->id }}">
                                             {{ number_format(App\Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
                                                     ->where('participant_id',$row->id)
+                                                    ->whereBetween('trainings.date_training',[$start_date,$end_date])
                                                     ->sum('trainings.hours'))
                                             }}
                                             </a>
                                         </td>
+                                        <td class="text-center text-danger text-bold">
+                                            <a href="#info" class="editable" data-id="{{ $row->id }}">
+                                                {{ number_format(App\Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
+                                                        ->where('participant_id',$row->id)
+                                                        ->whereBetween('trainings.date_training',[$start_date,$end_date])
+                                                        ->sum('monitoring.with_cert'))
+                                                }}
+                                            </a>
+                                        </td>
+                                        <td>
+
+                                        </td>
                                         <td>
                                             <a class="pull-right text-danger" href="#delete" data-id="{{ $row->id }}">
-                                                <i class="fa fa-times"></i>
+                                                <i class="fa fa-trash"></i> Delete
                                             </a>
                                         </td>
                                     </tr>

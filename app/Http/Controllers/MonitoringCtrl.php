@@ -19,6 +19,10 @@ class MonitoringCtrl extends Controller
     
     public function index()
     {
+        $d = Session::get('year')."-01-01";
+        $start = Carbon::parse($d)->startOfYear();
+        $end = Carbon::parse($d)->endOfYear();
+
         $keyword = Session::get('search_monitoring');
         $data = Monitoring::select(
                         'monitoring.*',
@@ -41,6 +45,7 @@ class MonitoringCtrl extends Controller
 
         $data = $data->leftJoin('participants','participants.id','=','monitoring.participant_id')
                     ->leftJoin('divisions','divisions.id','=','participants.division')
+                    ->whereBetween('trainings.date_training',[$start,$end])
                     ->leftJoin('trainings','trainings.id','=','monitoring.training_id')
                     ->orderBy('trainings.date_training','desc')
                     ->orderBy('participants.lname','asc')
@@ -75,17 +80,26 @@ class MonitoringCtrl extends Controller
     }
 
     public function info($id){
+        $d = Session::get('year')."-01-01";
+        $start = Carbon::parse($d)->startOfYear();
+        $end = Carbon::parse($d)->endOfYear();
+
         $participant = Participant::leftJoin('divisions','divisions.id','=','participants.division')
                     ->where('participants.id',$id)
                     ->first();
         
         $monitoring = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
                         ->where('participant_id',$id)
-                        ->get();
+                        ->whereBetween('trainings.date_training',[$start,$end]);
+
+        $mon = $monitoring->get();
+
+        $cert = $monitoring->sum('with_cert');
 
         return view('load.info',[
             'participant' => $participant,
-            'monitoring' => $monitoring
+            'monitoring' => $mon,
+            'no_cert' => $cert
         ]);
     }
 
@@ -105,16 +119,20 @@ class MonitoringCtrl extends Controller
         $year = Training::find($data->training_id)->date_training;
         $year = Carbon::parse($year)->format('Y');
 
-        $name = "$user->fname $user->lname $training";
-        $name = preg_replace('/[^A-Za-z0-9\-]/', ' ', $name);
-        $fileName = str_replace(' ','_',$name).".".$req->file('file')->getClientOriginalExtension();
+        $file['with_cert'] = $req->with_cert;
 
-        $path = "upload/$division/$year";
+        if($req->file('file')){
+            $name = "$user->fname $user->lname $training";
+            $name = preg_replace('/[^A-Za-z0-9\-]/', ' ', $name);
+            $fileName = str_replace(' ','_',$name).".".$req->file('file')->getClientOriginalExtension();
 
-        $req->file('file')->move($path,$fileName);
-        $data->update([
-             'cert' => "$path/$fileName"
-        ]);
+            $path = "upload/$division/$year";
+
+            $req->file('file')->move($path,$fileName);
+            $file['cert'] = "$path/$fileName";
+        }
+
+        $data->update($file);
 
         return redirect()->back()->with('status',[
             'status' => 'success',

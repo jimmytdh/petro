@@ -40,7 +40,8 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                     <th>Division</th> 
                                     <th>Training Attended</th>
                                     <th>Date</th>           
-                                    <th class="text-center">Hours of<br />Training</th>           
+                                    <th class="text-center">Certificate</th>
+                                    <th class="text-center">Hours of<br />Training</th>
                                     <th class="text-center">Self</th>           
                                     <th class="text-center">Supervisor</th>           
                                     <th class="text-center">TOTAL</th>           
@@ -53,8 +54,13 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                                             <a href="#info" class="editable" data-id="{{ $row->participant_id }}">{{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}</a>
                                         </td>
                                         <td>{{ $row->division }}</td>
-                                        <td>{{ $row->training }}</td>
+                                        <td title="{{ $row->training }}">{{ \App\Http\Controllers\ParamController::string_limit_words($row->training,40) }}</td>
                                         <td>{{ date('F d, Y',strtotime($row->date))}}</td>
+                                        <td class="text-center">
+                                            @if($row->with_cert)
+                                                <i class="fa fa-check text-success text-bold"></i>
+                                            @endif
+                                        </td>
                                         <td class="text-center text-danger">{{ $row->hours }}</td>
                                         <td class="text-center text-bold text-info">
                                             <a href="#evalutaion" class="editable" data-column="self" data-score="{{ $row->self }}" data-id="{{ $row->monitoring_id }}">
@@ -81,10 +87,12 @@ $user =  \Illuminate\Support\Facades\Session::get('user');
                         @endif
                     </div>
                     <div class="box-footer">
-                        @if(count($data)==0)
+                        @if(count($data)>0)
+                            {{ $data->links() }}
+                        @else
                             <div class="callout callout-warning">
-                                <p>Opps. No data found!</p>
-                            </div> 
+                                <p>Opps. No participants found!</p>
+                            </div>
                         @endif
                     </div>
                     <!-- /.box-body -->

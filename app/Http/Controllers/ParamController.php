@@ -79,4 +79,16 @@ class ParamController extends Controller
         Session::forget($session);
         return redirect()->back();
     }
+
+    static function string_limit_words($string, $word_limit) {
+        if(strlen($string)<=$word_limit)
+        {
+            return $string;
+        }
+        else
+        {
+            $y = substr($string,0,$word_limit) . '...';
+            return $y;
+        }
+    }
 }

@@ -23,8 +23,47 @@ class HomeController extends Controller
 
     public function index()
     {
+        $year = Session::get('year');
+        $d = $year."-01-01";
+        $start = Carbon::parse($d)->startOfYear();
+        $end = Carbon::parse($d)->endOfYear();
+
+        $no_employee = Participant::count();
+
+        $training = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
+            ->whereBetween('trainings.date_training',[$start,$end])
+            ->distinct('monitoring.participant_id');
+
+        $with_training = $training->count('monitoring.participant_id');
+        $included = $training->groupBy('monitoring.participant_id')
+                ->pluck('monitoring.participant_id')
+                ->all();
+
+        $without_training = Participant::whereNotIn('id',$included)
+                ->count();
+
+        $total_monitoring = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
+            ->whereBetween('trainings.date_training',[$start,$end])
+            ->count();
+        $no_certificate = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
+            ->whereBetween('trainings.date_training',[$start,$end])
+            ->where('with_cert',1)->count();
+
+        $per_training = ($with_training / $no_employee) * 100;
+        $per_without_training = ($without_training / $no_employee) * 100;
+        $per_cert = ($no_certificate / $total_monitoring) * 100;
+        $per_total = ($no_certificate/$no_employee)*100*.30;
+
         return view('page.home',[
-            'menu' => 'home'
+            'menu' => 'home',
+            'no_employee' => $no_employee,
+            'without_training' => $without_training,
+            'no_training' => $total_monitoring,
+            'per_training' => number_format($per_training,0),
+            'per_without_training' => number_format($per_without_training,0),
+            'per_cert' => number_format($per_cert,0),
+            'per_total' => number_format($per_total,0),
+
         ]);
     }
 
@@ -52,9 +91,16 @@ class HomeController extends Controller
 
     public function countFrequency($id)
     {
+        $year = Session::get('year');
+        $d = $year."-01-01";
+        $start = Carbon::parse($d)->startOfYear();
+        $end = Carbon::parse($d)->endOfYear();
+
         $emp = Participant::select('id')->where('division',$id)->get();
         $totalEmp = count($emp);
         $totalTrain = Monitoring::join('participants','participants.id','=','monitoring.participant_id')
+                        ->leftJoin('trainings','trainings.id','=','monitoring.training_id')
+                        ->whereBetween('trainings.date_training',[$start,$end])
                         ->where('participants.division',$id)
                         ->groupBy('participants.id')
                         ->get();
@@ -72,7 +118,7 @@ class HomeController extends Controller
 
     public function chartData()
     {
-        $y = date('Y');
+        $y = Session::get('year');
         $data = array();
         for($i=1; $i<=12; $i++)
         {

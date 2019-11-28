@@ -58,5 +58,8 @@
     </table>
 </div>
 <div class="modal-footer text-bold text-success">
+    <div class="pull-left text-danger">
+        NO. OF CERTIFICATES: {{ number_format($no_cert) }}
+    </div>
     TOTAL HOURS: {{ number_format($total) }}
 </div>
