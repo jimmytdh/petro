@@ -52,7 +52,7 @@ class HomeController extends Controller
         $per_training = ($with_training / $no_employee) * 100;
         $per_without_training = ($without_training / $no_employee) * 100;
         $per_cert = ($no_certificate / $total_monitoring) * 100;
-        $per_total = ($no_certificate/$no_employee)*100*.30;
+        $per_total = ($no_certificate/$no_employee)*100;
 
         return view('page.home',[
             'menu' => 'home',
@@ -62,7 +62,7 @@ class HomeController extends Controller
             'per_training' => number_format($per_training,0),
             'per_without_training' => number_format($per_without_training,0),
             'per_cert' => number_format($per_cert,0),
-            'per_total' => number_format($per_total,0),
+            'per_total' => number_format($per_total,1),
 
         ]);
     }

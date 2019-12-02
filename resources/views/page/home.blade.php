@@ -81,7 +81,7 @@
                                     <div class="progress-bar" style="width: {{ $per_total }}%"></div>
                                 </div>
                                 <span class="progress-description">
-                                    (cert. submitted / employees) x 100% x 30%
+                                    (cert. submitted / employees) x 100%
                                   </span>
                             </div>
                             <!-- /.info-box-content -->
