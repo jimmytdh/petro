@@ -49,7 +49,9 @@ class HomeController extends Controller
             ->whereBetween('trainings.date_training',[$start,$end])
             ->where('with_cert',1)->count();
 
-        $per_training = ($with_training / $no_employee) * 100;
+        $t1 = ($with_training / $no_employee) * 100;
+        $t2 = ($with_training / $no_employee) * 30;
+        $per_training = number_format($t1 + $t2,1);
         $per_without_training = ($without_training / $no_employee) * 100;
         $per_cert = ($no_certificate / $total_monitoring) * 100;
         $per_total = ($no_certificate/$no_employee)*100;

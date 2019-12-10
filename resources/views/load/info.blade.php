@@ -42,13 +42,24 @@
                 <td class="text-left">
                     <small class="text-success">{{ date('F d, Y',strtotime($m->date_training)) }}</small>
                     <br />
-                    {{ $m->name }}
-                    @if(strlen($m->cert)>0)
-                    <br>
-                       <small><a href="{{ url($m->cert) }}" class="text-danger" target="_blank">
-                               <i class="fa fa-file-pdf-o"></i> View Certificate
-                           </a></small>
+                    <a href="{{ url('trainings/list/'.$m->training_id) }}" class="text-primary text-bold">
+                        {{ $m->name }}
+                    </a>
+                    @if($m->with_cert || strlen($m->cert)>0)
+                        <br>
+                        @if($m->with_cert)
+                            <small class="text-muted">
+                                <i class="fa fa-check"></i> With Certificate
+                            </small>
+                        @endif
+                        @if(strlen($m->cert)>0)
+                            <small>&nbsp;&nbsp;<a href="{{ url($m->cert) }}" class="text-danger" target="_blank">
+                                    <i class="fa fa-file-pdf-o"></i> View Certificate
+                                </a></small>
+                        @endif
                     @endif
+
+
                 </td>
                 <td class="text-bold text-center">{{ $m->hours }}</td>
                 <?php $total += $m->hours; ?>
