@@ -42,7 +42,7 @@
                 <td class="text-left">
                     <small class="text-success">{{ date('F d, Y',strtotime($m->date_training)) }}</small>
                     <br />
-                    <a href="{{ url('trainings/list/'.$m->training_id) }}" class="text-primary text-bold">
+                    <a href="{{ url('trainings/list/'.$m->training_id) }}" class="text-primary text-bold editable">
                         {{ $m->name }}
                     </a>
                     @if($m->with_cert || strlen($m->cert)>0)
