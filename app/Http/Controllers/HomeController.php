@@ -53,7 +53,12 @@ class HomeController extends Controller
         $t2 = ($with_training / $no_employee) * 30;
         $per_training = number_format($t1 + $t2,1);
         $per_without_training = ($without_training / $no_employee) * 100;
-        $per_cert = ($no_certificate / $total_monitoring) * 100;
+        if($total_monitoring>0){
+            $per_cert = ($no_certificate / $total_monitoring) * 100;
+        }else{
+            $per_cert = 0.0;
+        }
+
         $per_total = ($no_certificate/$no_employee)*100;
 
         return view('page.home',[
