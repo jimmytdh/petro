@@ -1,12 +1,13 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-## About Document Tracking System
+## About PETRO Monitoring System
 
-Talisay District Hospital - Document Tracking System is a web based information system that track documents from creation to end of the cycle.
+Talisay District Hospital - PETRO Monitoring System is a web based information system that record all trainings of the employees.
 
 * Versions
     * version 1.0
     * version 1.1
+        * Fix some bugs in home page
 
 ## Developer
 
