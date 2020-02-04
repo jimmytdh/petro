@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Deliverable;
 use App\Division;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Training;
@@ -20,11 +21,17 @@ class TrainingCtrl extends Controller
     public function index($edit=false,$info=array())
     {
         $keyword = Session::get('search_training');
+        $year = Session::get('year');
+        $start = Carbon::parse("$year-01-01")->startOfYear();
+        $end = Carbon::parse("$year-12-31")->endOfYear();
+
+
         $data = Training::select('*');
         if($keyword){
             $data = $data->where('name','like',"%$keyword%");
         }
-        $data = $data->paginate(30);
+        $data = $data->whereBetween('date_training',[$start,$end])
+                ->paginate(30);
 
         $deliverable = Deliverable::orderBy('name','asc')->get();
         $division = Division::orderBy('name','asc')->get();
