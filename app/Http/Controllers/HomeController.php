@@ -28,7 +28,7 @@ class HomeController extends Controller
         $start = Carbon::parse($d)->startOfYear();
         $end = Carbon::parse($d)->endOfYear();
 
-        $no_employee = Participant::count();
+        $no_employee = Participant::where('created_at','<=',$end)->count();
 
         $training = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
             ->whereBetween('trainings.date_training',[$start,$end])
@@ -40,6 +40,7 @@ class HomeController extends Controller
                 ->all();
 
         $without_training = Participant::whereNotIn('id',$included)
+                ->where('created_at','<=',$end)
                 ->count();
 
         $total_monitoring = Monitoring::leftJoin('trainings','trainings.id','=','monitoring.training_id')
@@ -103,7 +104,10 @@ class HomeController extends Controller
         $start = Carbon::parse($d)->startOfYear();
         $end = Carbon::parse($d)->endOfYear();
 
-        $emp = Participant::select('id')->where('division',$id)->get();
+        $emp = Participant::select('id')
+                    ->where('division',$id)
+                    ->where('created_at','<=',$end)
+                    ->get();
         $totalEmp = count($emp);
         $totalTrain = Monitoring::join('participants','participants.id','=','monitoring.participant_id')
                         ->leftJoin('trainings','trainings.id','=','monitoring.training_id')

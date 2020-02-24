@@ -77,3 +77,4 @@ Route::post('/param/change/year','ParamController@changeYear');
 Route::get('/param/clear/{session}','ParamController@clearSession');
 
 Route::get('/fix/trainingdate','FixController@trainingdate');
+Route::get('/fix/participant','FixController@participant');

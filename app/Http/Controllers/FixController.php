@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Monitoring;
+use App\Participant;
 use App\Training;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,5 +29,17 @@ class FixController extends Controller
 
             echo $row->id.' - '.$date.'<br>';
         }
+    }
+
+    function participant()
+    {
+        $emp = Participant::where('created_at',null)->count();
+        echo $emp;
+
+        Participant::where('created_at',null)
+            ->update([
+               'created_at' => '2019-11-29 08:00:00',
+               'updated_at' => '2019-11-29 08:00:00'
+            ]);
     }
 }
