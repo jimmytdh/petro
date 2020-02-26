@@ -91,7 +91,8 @@ class TrainingCtrl extends Controller
             'name' => $req->name,
             'date_training' => $req->date_training,
             'hours' => $req->hours,
-            'deliverable' => $req->deliverable
+            'deliverable' => $req->deliverable,
+            'problem' => $req->problem
         );
 
         $validate = Training::where($data)

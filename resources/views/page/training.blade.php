@@ -55,7 +55,6 @@
                                             </select>
                                         </div>
                                     </fieldset>
-
                                 </div>
                                 <!-- /.box-body -->
 
@@ -110,6 +109,12 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <fieldset>
+                                        <legend class="text-bold text-success"><small>Problem Encountered</small></legend>
+                                        <div class="form-group">
+                                            <textarea name="problem" id="" class="form-control" rows="6" style="resize: none;" placeholder="Enter problems encountered...">{{ $info->problem }}</textarea>
+                                        </div>
+                                    </fieldset>
                                 </div>
 
                                 <div class="box-footer">
