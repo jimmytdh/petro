@@ -58,10 +58,14 @@
                                 <small class="text-danger">
                                     Date: {{ \Carbon\Carbon::parse($row->date_training)->format('F d, Y') }}
                                 </small>
+                                <br>
+                                <small class="text-info">
+                                    Venue: {{ $row->venue }}
+                                </small>
                             </h3>
                         </div>
                         <div class="box-body">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" style="font-size: 0.9em;">
                                 <thead class="bg-gray">
                                     <tr>
                                         <th>Last Name</th>

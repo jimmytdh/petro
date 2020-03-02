@@ -33,6 +33,10 @@
                                             <label for="name">No. of Hours</label>
                                             <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="1" class="form-control" placeholder="Enter Training Name">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="venue">Venue</label>
+                                            <textarea name="venue" id="venue" class="form-control" rows="4" style="resize: none;" placeholder="Address of the Venue..."></textarea>
+                                        </div>
                                     </fieldset>
                                     <fieldset>
                                         <legend class="text-bold text-success"><small>Deliverable</small></legend>
@@ -87,7 +91,11 @@
                                     </div>  
                                     <div class="form-group">
                                         <label for="name">No. of Hours</label>
-                                        <input type="number" autofocus required autocomplete="off" name="hours" min="1" value="{{ $info->hours }}" class="form-control" placeholder="Enter Training Name">
+                                        <input type="number" required autocomplete="off" name="hours" min="1" value="{{ $info->hours }}" class="form-control" placeholder="Enter Training Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="venue">Venue</label>
+                                        <textarea name="venue" id="venue" class="form-control" rows="4" style="resize: none;" placeholder="Address of the Venue...">{{ $info->venue }}</textarea>
                                     </div>
                                     <fieldset>
                                         <legend class="text-bold text-success"><small>Deliverable</small></legend>
@@ -176,6 +184,8 @@
                                                 <small><i class="fa fa-link text-danger"></i></small>
                                             @endif
                                             {{ $row->name }}
+                                            <br>
+                                            <small class="text-danger">{{ ($row->venue) ? $row->venue: '' }}</small>
                                         </td>
                                         <td width="20%" class="text-danger">{{ date('M d, Y',strtotime($row->date_training)) }}</td>                                
                                         <td width="10%" class="text-center">

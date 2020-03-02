@@ -11,6 +11,7 @@ class Training extends Model
         'date_training',
         'hours',
         'deliverable',
-        'problem'
+        'problem',
+        'venue',
     ];
 }

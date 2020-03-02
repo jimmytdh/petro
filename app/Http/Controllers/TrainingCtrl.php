@@ -58,7 +58,8 @@ class TrainingCtrl extends Controller
             'name' => $req->name,
             'date_training' => $req->date_training,
             'hours' => $req->hours,
-            'deliverable' => $req->deliverable
+            'deliverable' => $req->deliverable,
+            'venue' => $req->venue
         );
 
         $validateName = Training::where($data)->first();
@@ -92,7 +93,8 @@ class TrainingCtrl extends Controller
             'date_training' => $req->date_training,
             'hours' => $req->hours,
             'deliverable' => $req->deliverable,
-            'problem' => $req->problem
+            'problem' => $req->problem,
+            'venue' => $req->venue
         );
 
         $validate = Training::where($data)
