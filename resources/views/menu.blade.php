@@ -71,6 +71,11 @@
                     <i class="fa fa-area-chart"></i> <span>Monitoring</span>
                 </a>
             </li>
+            <li class="{{ ($menu=='monthly') ? 'active':'' }}">
+                <a href="{{ url('/monthly') }}/">
+                    <i class="fa fa-bar-chart"></i> <span>Monthly Monitoring</span>
+                </a>
+            </li>
             <li class="{{ ($menu=='notraining') ? 'active':'' }}">
                 <a href="{{ url('/participants/notraining') }}/">
                     <i class="fa fa-user-times"></i> <span>No Traning</span>

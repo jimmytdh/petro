@@ -63,9 +63,14 @@ Route::get('/trainings/certificate/{id}','MonitoringCtrl@certificate');
 Route::post('/trainings/certificate/{id}','MonitoringCtrl@certificateUpload');
 Route::get('/trainings/certificate/delete/{id}','MonitoringCtrl@certificateDelete');
 
+//Monitoring
 Route::get('/monitoring','MonitoringCtrl@index');
 Route::post('/monitoring/{column}/{id}','MonitoringCtrl@save');
 Route::post('/monitoring/search','MonitoringCtrl@search');
+
+//Monthly Monitoring
+Route::get('/monthly','MonitoringCtrl@monthly');
+Route::post('/monthly','MonitoringCtrl@getMonthlyTraining');
 
 
 Route::get('/load/info/{id}','MonitoringCtrl@info');

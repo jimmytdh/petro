@@ -160,4 +160,47 @@ class MonitoringCtrl extends Controller
             'msg' => "Certificate successfully removed!"
         ]);
     }
+
+    public function monthly($trainings = null, $date = null){
+        if(!$date)
+            $date = date('Y-m-d');
+
+        return view('page.monthly',[
+            'menu' => 'monthly',
+            'trainings' => $trainings,
+            'date' => $date
+        ]);
+    }
+
+    public function getMonthlyTraining(Request $req){
+        $start = Carbon::parse($req->date)->startOfMonth();
+        $end = Carbon::parse($req->date)->endOfMonth();
+
+        $trainings = Training::whereBetween('date_training',[$start,$end])
+            ->orderBy('date_training','asc')
+            ->get();
+        if(count($trainings)==0)
+            $trainings=null;
+
+        return self::monthly($trainings, $start->format('Y-m-d'));
+    }
+
+    static function getTraineeList($training_id){
+        $data = Monitoring::select(
+                'monitoring.id',
+                'participants.lname',
+                'participants.fname',
+                'participants.mname',
+                'divisions.name',
+                'participants.id as participant_id',
+                'monitoring.cert',
+                'monitoring.with_cert'
+            )
+            ->leftJoin('participants','participants.id','=','monitoring.participant_id')
+            ->leftJoin('divisions','divisions.id','=','participants.division')
+            ->where('training_id',$training_id)
+            ->orderBy('participants.lname','asc')
+            ->get();
+        return $data;
+    }
 }
